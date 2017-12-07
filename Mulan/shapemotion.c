@@ -13,6 +13,8 @@
 #include <p2switches.h>
 #include <shape.h>
 #include <abCircle.h>
+#include "buzzer.h"
+#include "movement.h"
 
 #define GREEN_LED BIT6
 
@@ -183,6 +185,7 @@ void mlBounce(MovLayer *ml, MovLayer *fence, MovLayer *fence2)
                 newPos.axes[axis] += (2*velocity);
             }
             points[0]= points[0]+1;
+            buzzer_init(2000);
             ml->layer->posNext = newPos;
         } /**< for ml */
         else if(shapeBoundary.botRight.axes[0] > paddleBoundary2.topLeft.axes[0] &&
@@ -193,7 +196,10 @@ void mlBounce(MovLayer *ml, MovLayer *fence, MovLayer *fence2)
                 newPos.axes[axis] += (2*velocity);
             }
             points[2]= points[2]+1;
+        buzzer_init(1000);
             ml->layer->posNext = newPos;
+        }else {
+            buzzer_init(0);
         }
     }
 }
@@ -259,6 +265,8 @@ void game()
             int velocity = ml5.velocity.axes[1] = 3;
             padPos2.axes[1] += (2*velocity);
         }
+        
+        //movement();
 
         str[4] = 0;
         
